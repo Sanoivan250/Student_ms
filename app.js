@@ -9,15 +9,21 @@ connectDB();
 
 const app = express();
 
+/* ✅ CORS — MUST be first */
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://student-ms-chi.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
+/* ✅ Handle preflight explicitly */
+app.options("*", cors());
+
 app.use(express.json());
 
 app.use('/students', studentsRoutes);
 
-app.use(cors())
-
-const PORT = process.env.PORT || 5000;
-    
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-})
+export default app;
