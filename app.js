@@ -8,22 +8,10 @@ connectDB();
 
 
 const app = express();
-
-/* ✅ CORS — MUST be first */
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://student-ms-chi.vercel.app"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
-
-/* ✅ Handle preflight explicitly */
-app.options("*", cors());
-
+app.use(cors({ origin: '*' }));
+app.options('*', cors());
 app.use(express.json());
 
 app.use('/students', studentsRoutes);
 
-export default app;
+module.exports = app;

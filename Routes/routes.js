@@ -8,7 +8,18 @@ router.post('/send', async (req, res) => {
         await student.save()
         res.status(200).json(student)
     } catch (err) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: err.message });
+    }
+})
+
+// also accept POST at root to match clients sending to '/students/'
+router.post('/', async (req, res) => {
+    try{
+        const student= new Student(req.body)
+        await student.save()
+        res.status(200).json(student)
+    } catch (err) {
+        res.status(404).json({ message: err.message });
     }
 })
 // display all students
@@ -17,7 +28,7 @@ router.get('/all', async (req, res) => {
         const students = await Student.find()
         res.status(200).json(students)
     } catch (err) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: err.message });
     }
 })
 
@@ -27,7 +38,7 @@ router.put('/update/:id', async (req, res) => {
        const student= await Student.findByIdAndUpdate(id,req.body,{new:true})
        res.status(200).json(student)
     } catch (err) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: err.message });
     }   })
 
 router.delete('/delete/:id', async (req, res) => {
@@ -36,7 +47,7 @@ router.delete('/delete/:id', async (req, res) => {
         await Student.findByIdAndDelete(id);
         res.status(200).json({ message: "Student deleted successfully" });
     } catch (err) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: err.message });
     } })
 
 module.exports = router
